@@ -2,6 +2,12 @@
 
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
+## experimental
+
+this is mostly an experiment, and will probably be dropped in favour of an existing module like `whatwg-fetch` or `superagent`
+
+--
+
 A tiny HTTP client for Node/Browser. Uses [got](https://www.npmjs.com/package/got) in Node and [xhr](https://www.npmjs.com/package/xhr) in the browser.
 
 ## Install
