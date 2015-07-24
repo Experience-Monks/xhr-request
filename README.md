@@ -4,12 +4,6 @@
 
 A tiny JSON HTTP client for Node/Browser. Uses [got](https://www.npmjs.com/package/got) in Node and [xhr](https://www.npmjs.com/package/xhr) in the browser.
 
-## Motivation
-
-There are a lot of HTTP clients, but most of them are Node-centric and lead to large browser bundles with builtins like `url`, `buffer`, `http`, `zlib`, etc. 
-
-This bundles to 7kb after compression. Compare to 742kb for [request](https://www.npmjs.com/package/request), 153kb for [got](https://www.npmjs.com/package/got), and 25kb for [nets](https://www.npmjs.com/package/nets).
-
 ## Install
 
 ```sh
@@ -34,11 +28,17 @@ request('http://foo.com/some/api', {
 
 The body response defaults to text unless `json` or `responseType` options are specified.
 
+## Motivation
+
+There are a lot of HTTP clients, but most of them are Node-centric and lead to large browser bundles with builtins like `url`, `buffer`, `http`, `zlib`, etc. 
+
+This bundles to 7kb after compression. Compare to 742kb for [request](https://www.npmjs.com/package/request), 153kb for [got](https://www.npmjs.com/package/got), and 25kb for [nets](https://www.npmjs.com/package/nets).
+
 ## Usage
 
 [![NPM](https://nodei.co/npm/got-xhr.png)](https://www.npmjs.com/package/got-xhr)
 
-
+WIP
 
 ## See Also
 
