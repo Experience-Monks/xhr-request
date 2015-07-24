@@ -1,0 +1,60 @@
+{
+  "name": "got-xhr",
+  "version": "1.0.0",
+  "description": "tiny Node/Browser http client",
+  "main": "index.js",
+  "license": "MIT",
+  "browser": "./browser.js",
+  "author": {
+    "name": "Matt DesLauriers",
+    "email": "dave.des@gmail.com",
+    "url": "https://github.com/mattdesl"
+  },
+  "dependencies": {
+    "buffer-to-arraybuffer": "0.0.2",
+    "got": "^3.3.1",
+    "object-assign": "^3.0.0",
+    "querystring": "^0.2.0",
+    "xhr": "^2.0.3"
+  },
+  "devDependencies": {
+    "browserify": "^11.0.0",
+    "faucet": "0.0.1",
+    "tape": "^4.0.1",
+    "testling": "^1.7.1"
+  },
+  "scripts": {
+    "test": "npm run test-node && npm run test-browser",
+    "test-node": "node test/index.js | faucet",
+    "test-browser": "browserify test/test-browser.js | testling | faucet"
+  },
+  "keywords": [
+    "node",
+    "browser",
+    "http",
+    "got",
+    "request",
+    "gots",
+    "nets",
+    "xhr",
+    "xmlhttprequest",
+    "xml",
+    "http",
+    "request",
+    "client",
+    "https",
+    "requests",
+    "xml",
+    "get",
+    "query",
+    "string"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Jam3/got-xhr.git"
+  },
+  "homepage": "https://github.com/Jam3/got-xhr",
+  "bugs": {
+    "url": "https://github.com/Jam3/got-xhr/issues"
+  }
+}
