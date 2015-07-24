@@ -13,8 +13,7 @@ test('should append query string object', function (t) {
   run('http://foo.com/blah?asdf=123#home', { foo: 'bar' }, 'http://foo.com/blah?foo=bar#home')
   run('http://foo.com/blah/?asdf=123#home', { foo: 'bar' }, 'http://foo.com/blah/?foo=bar#home')
   t.end()
-  function run(url, opt, expected, msg) {
+  function run (url, opt, expected, msg) {
     t.equal(urlQuery(url, opt), expected, msg)
   }
 })
-  

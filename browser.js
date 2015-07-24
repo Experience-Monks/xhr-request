@@ -1,7 +1,7 @@
 var xhr = require('xhr')
 var assign = require('object-assign')
 var urlWithQuery = require('./lib/url-with-query')
-var noop = function(){}
+var noop = function () {}
 
 module.exports = requestXHR
 function requestXHR (url, opt, cb) {
@@ -12,11 +12,11 @@ function requestXHR (url, opt, cb) {
     cb = opt
     opt = {}
   }
-  
+
   cb = cb || noop
   opt = assign({}, opt)
   url = urlWithQuery(url, opt.query)
-  
+
   delete opt.uri
   opt.url = url
   xhr(opt, function (err, resp, body) {

@@ -7,11 +7,11 @@ test('json: true option', testJSON({ json: true }))
 test('responseType: "json" option', testJSON({ responseType: 'json' }))
 
 test('general put querystring request', function (t) {
-  t.plan(7)
+  t.plan(9)
 
   var server = http.createServer(function (req, res) {
     setCORS(res)
-    
+
     var parsed = url.parse(req.url, true)
     t.equal(parsed.query.path, 'beep/boop', 'query path')
     t.equal(parsed.query.contents, 'Kapow!', 'query contents')
@@ -34,9 +34,11 @@ test('general put querystring request', function (t) {
       }
     }, function (err, body, resp) {
       if (err) t.fail(err)
+      t.equal(body, JSON.stringify({ data: 'blah' }))
       t.equal(resp.statusCode, 200)
       t.equal(resp.headers['content-type'], 'application/json')
-      t.equal(body, JSON.stringify({ data: 'blah' }))
+      t.equal(resp.method, 'PUT')
+      t.equal(resp.url, 'http://localhost:9021/foo')
       server.close()
     })
   })

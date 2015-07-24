@@ -2,7 +2,7 @@ var assign = require('object-assign')
 var request = require('got')
 var toArrayBuffer = require('buffer-to-arraybuffer')
 var responseTypes = ['text', 'arraybuffer', 'json']
-var noop = function(){}
+var noop = function () {}
 
 module.exports = grabJson
 function grabJson (url, opt, cb) {
@@ -13,20 +13,20 @@ function grabJson (url, opt, cb) {
     cb = opt
     opt = {}
   }
-  
+
   cb = cb || noop
   opt = assign({ responseType: 'text' }, opt)
-  
+
   var responseType = opt.responseType
   if (responseType && responseTypes.indexOf(responseType) === -1) {
     throw new TypeError('invalid responseType for Node: ' + responseType)
   }
-  
+
   if (responseType === 'arraybuffer') {
     // ensure a Buffer is returned
     opt.encoding = null
   }
-  
+
   delete opt.responseType
   request(url, opt, function (err, data, resp) {
     var isBuf = Buffer.isBuffer(data)
@@ -44,7 +44,12 @@ function grabJson (url, opt, cb) {
         data = data.toString()
       }
     }
-    
-    cb(err, data, resp)
+
+    cb(err, data, {
+      statusCode: resp.statusCode,
+      headers: resp.headers,
+      method: opt.method || 'GET',
+      url: url
+    })
   })
 }
