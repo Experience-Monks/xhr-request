@@ -7,7 +7,7 @@ test('json: true option', testJSON({ json: true }))
 test('responseType: "json" option', testJSON({ responseType: 'json' }))
 
 test('general put querystring request', function (t) {
-  t.plan(9)
+  t.plan(10)
 
   var server = http.createServer(function (req, res) {
     setCORS(res)
@@ -35,12 +35,56 @@ test('general put querystring request', function (t) {
     }, function (err, body, resp) {
       if (err) t.fail(err)
       t.equal(body, JSON.stringify({ data: 'blah' }))
+      t.equal(resp.rawRequest.statusCode, 200, 'gets rawRequest in node')
       t.equal(resp.statusCode, 200)
       t.equal(resp.headers['content-type'], 'application/json')
       t.equal(resp.method, 'PUT')
-      t.equal(resp.url, 'http://localhost:9021/foo')
+      t.equal(resp.url, 'http://localhost:9021/foo?contents=Kapow%21&path=beep%2Fboop')
       server.close()
     })
+  })
+})
+
+test('test timeout', function (t) {
+  t.plan(1)
+  t.timeoutAfter(3000)
+
+  var server = http.createServer(function (req, res) {
+    // just hangs
+  })
+  server.on('error', t.fail.bind(t))
+  server.listen(9021, 'localhost', function () {
+    grab('http://localhost:9021/', {
+      timeout: 1000
+    }, function (err) {
+      if (err) t.equal(err.code, 'ETIMEDOUT', 'got error')
+      else t.fail('should have received error')
+      server.close()
+    })
+  })
+})
+
+test('test node abort()', function (t) {
+  t.plan(2)
+  t.timeoutAfter(3000)
+
+  var server = http.createServer(function (req, res) {
+    // just hangs
+  })
+  server.on('error', t.fail.bind(t))
+  server.listen(9021, 'localhost', function () {
+    var req = grab('http://localhost:9021/', {
+      timeout: 1000
+    }, function (err) {
+      if (!err) return t.fail('should have received error')
+      t.ok(err instanceof Error, 'got an error')
+      t.equal(err.code, 'ECONNRESET', 'connection cancelled')
+      server.close()
+    })
+
+    setTimeout(function () {
+      req.abort()
+    }, 500)
   })
 })
 

@@ -1,11 +1,15 @@
+var queryString = require('query-string')
+var setQuery = require('url-set-query')
 var assign = require('object-assign')
-var request = require('got')
-var toArrayBuffer = require('buffer-to-arraybuffer')
-var responseTypes = ['text', 'arraybuffer', 'json']
+
+// this is replaced in the browser
+var request = require('./lib/request.js')
+
+var mimeTypeJson = 'application/json; charset=utf-8'
 var noop = function () {}
 
-module.exports = grabJson
-function grabJson (url, opt, cb) {
+module.exports = xhrRequest
+function xhrRequest (url, opt, cb) {
   if (!url || typeof url !== 'string') {
     throw new TypeError('must specify a URL')
   }
@@ -13,43 +17,46 @@ function grabJson (url, opt, cb) {
     cb = opt
     opt = {}
   }
+  if (cb && typeof cb !== 'function') {
+    throw new TypeError('expected cb to be undefined or a function')
+  }
 
   cb = cb || noop
-  opt = assign({ responseType: 'text' }, opt)
+  opt = opt || {}
 
-  var responseType = opt.responseType
-  if (responseType && responseTypes.indexOf(responseType) === -1) {
-    throw new TypeError('invalid responseType for Node: ' + responseType)
-  }
+  var defaultResponse = opt.json ? 'json' : 'text'
+  opt = assign({ responseType: defaultResponse }, opt)
 
-  if (responseType === 'arraybuffer') {
-    // ensure a Buffer is returned
-    opt.encoding = null
-  }
-
-  delete opt.responseType
-  request(url, opt, function (err, data, resp) {
-    var isBuf = Buffer.isBuffer(data)
-    if (isBuf || typeof data === 'string') {
-      if (responseType === 'arraybuffer') {
-        var buf = isBuf ? data : new Buffer(data)
-        data = toArrayBuffer(buf)
-      } else if (responseType === 'json') {
-        try {
-          data = JSON.parse(data.toString())
-        } catch (e) {
-          err = new Error('Failed to parse JSON ' + e.message)
-        }
-      } else { // text response
-        data = data.toString()
-      }
+  var headers = opt.headers || {}
+  var method = (opt.method || 'GET').toUpperCase()
+  var query = opt.query
+  if (query) {
+    if (typeof query !== 'string') {
+      query = queryString.stringify(query)
     }
+    url = setQuery(url, query)
+  }
 
-    cb(err, data, {
-      statusCode: resp.statusCode,
-      headers: resp.headers,
-      method: opt.method || 'GET',
-      url: url
-    })
-  })
+  // allow json response
+  if (opt.responseType === 'json') {
+    if (!headers.accept && !headers.Accept) {
+      headers.Accept = mimeTypeJson
+    }
+  }
+
+  // if body content is json
+  if (opt.json && method !== 'GET' && method !== 'HEAD') {
+    if (!headers['content-type'] && !headers['Content-Type']) {
+      headers['Content-Type'] = mimeTypeJson
+    }
+    opt.body = JSON.stringify(opt.body)
+  }
+
+  opt.method = method
+  opt.url = url
+  opt.headers = headers
+  delete opt.query
+  delete opt.json
+
+  return request(opt, cb)
 }

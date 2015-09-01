@@ -1,10 +1,12 @@
 {
-  "name": "got-xhr",
+  "name": "xhr-request",
   "version": "1.0.0",
   "description": "tiny Node/Browser http client",
   "main": "index.js",
   "license": "MIT",
-  "browser": "./browser.js",
+  "browser": {
+    "./lib/request.js": "./lib/request-browser.js"
+  },
   "author": {
     "name": "Matt DesLauriers",
     "email": "dave.des@gmail.com",
@@ -12,21 +14,22 @@
   },
   "dependencies": {
     "buffer-to-arraybuffer": "0.0.2",
-    "got": "^3.3.1",
     "object-assign": "^3.0.0",
-    "querystring": "^0.2.0",
-    "xhr": "^2.0.3"
+    "query-string": "^2.4.0",
+    "simple-get": "^1.4.3",
+    "timed-out": "^2.0.0",
+    "url-set-query": "^1.0.0",
+    "xhr": "^2.0.4"
   },
   "devDependencies": {
-    "browserify": "^11.0.0",
     "faucet": "0.0.1",
-    "tape": "^4.0.1",
-    "testling": "^1.7.1"
+    "hihat": "^2.4.3",
+    "tape": "^4.0.1"
   },
   "scripts": {
     "test": "npm run test-node && npm run test-browser",
     "test-node": "node test/index.js | faucet",
-    "test-browser": "browserify test/test-browser.js | testling | faucet"
+    "test-browser": "hihat test/test-browser.js --timeout=3000 --quit --print | faucet"    
   },
   "keywords": [
     "node",
@@ -51,10 +54,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/Jam3/got-xhr.git"
+    "url": "git://github.com/Jam3/xhr-request.git"
   },
-  "homepage": "https://github.com/Jam3/got-xhr",
+  "homepage": "https://github.com/Jam3/xhr-request",
   "bugs": {
-    "url": "https://github.com/Jam3/got-xhr/issues"
+    "url": "https://github.com/Jam3/xhr-request/issues"
   }
 }
