@@ -2,11 +2,11 @@
 
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
-An extremely tiny HTTP/HTTPS request client for Node/browser, built on [xhr](https://www.npmjs.com/package/xhr) and [simple-get](https://www.npmjs.com/package/simple-get). 
+An extremely tiny HTTP/HTTPS request client for Node and the browser. Uses [xhr](https://www.npmjs.com/package/xhr) in the browser and [simple-get](https://www.npmjs.com/package/simple-get) in Node. 
 
-Supports `'text'`, `'json'` and `'arraybuffer'` response types.
+Supported response types: JSON, ArrayBuffer, and text (default).
 
-For streaming requests, you should just use [simple-get](https://www.npmjs.com/package/simple-get) directly. It works in Node/browser and supports true streaming in new versions of Chrome/FireFox.
+For streaming requests, you can just use [simple-get](https://www.npmjs.com/package/simple-get) directly. It works in Node/browser and supports true streaming in new versions of Chrome/FireFox.
 
 ## Install
 
@@ -16,7 +16,7 @@ npm install xhr-request --save
 
 ## Example
 
-Simplest example, loading JSON:
+A simple example, loading JSON:
 
 ```js
 var request = require('xhr-request')
@@ -46,7 +46,7 @@ request('http://foo.com/some/api', {
   }
 }, function (err, data) {
   if (err) throw err
-  console.log("got ArrayBuffer result: ", data)
+  console.log('got ArrayBuffer result: ', data)
 })
 ```
 
@@ -58,9 +58,7 @@ With browserify, this bundles to 7kb after compression. Compare to 742kb for [re
 
 ## Usage
 
-[![NPM](https://nodei.co/npm/xhr-request.png)](https://www.npmjs.com/package/xhr-request)
-
-#### `xhrRequest(url, [opt], [callback])`
+#### `req = xhrRequest(url, [opt], [callback])`
 
 Sends a request to the given `url` with optional `opt` settings, triggering `callback` on complete.
 
@@ -104,6 +102,10 @@ The response object has the following form:
 The `rawRequest` is the XMLHttpRequest in the browser, and the `http` response in Node.
 
 Since `opt` is optional, you can specify `callback` as the second argument.
+
+#### `req.abort()`
+
+The returned `req` (the [ClientRequest](https://nodejs.org/api/http.html#http_class_http_clientrequest) or XMLHttpRequest) has an `abort()` method which can be used to cancel the request and send an Error to the callback.
 
 ## See Also
 
