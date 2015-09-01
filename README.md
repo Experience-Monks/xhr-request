@@ -73,7 +73,7 @@ Options:
 - `responseType` (String)
   - can be `'text'`, `'arraybuffer'` or `'json'`
   - defaults to `'text'` unless `json` is true
-- `body` (String|Any)
+- `body` (String|JSON)
   - an optional body to send with request
   - sent as text unless `json` is true
 - `method` (String)
