@@ -1,9 +1,10 @@
+/*globals XMLHttpRequest*/
 var test = require('tape')
 var request = require('../')
 
 test('should xhr from a JSON file', function (t) {
   t.plan(7)
-  
+
   var url = '/test/fixture.json'
   setTimeout(function () {
     request(url, {
@@ -21,7 +22,7 @@ test('should xhr from a JSON file', function (t) {
       }), true)
     })
   }, 1000)
-    
+
 })
 
 test('should respond with text by default', function (t) {
