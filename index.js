@@ -5,7 +5,7 @@ var assign = require('object-assign')
 // this is replaced in the browser
 var request = require('./lib/request.js')
 
-var mimeTypeJson = 'application/json; charset=utf-8'
+var mimeTypeJson = 'application/json'
 var noop = function () {}
 
 module.exports = xhrRequest
