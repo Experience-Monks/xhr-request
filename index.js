@@ -1,6 +1,7 @@
 var queryString = require('query-string')
 var setQuery = require('url-set-query')
 var assign = require('object-assign')
+var ensureHeader = require('./lib/ensure-header.js')
 
 // this is replaced in the browser
 var request = require('./lib/request.js')
@@ -39,16 +40,12 @@ function xhrRequest (url, opt, cb) {
 
   // allow json response
   if (opt.responseType === 'json') {
-    if (!headers.accept && !headers.Accept) {
-      headers.Accept = mimeTypeJson
-    }
+    ensureHeader(headers, 'Accept', mimeTypeJson)
   }
 
   // if body content is json
   if (opt.json && method !== 'GET' && method !== 'HEAD') {
-    if (!headers['content-type'] && !headers['Content-Type']) {
-      headers['Content-Type'] = mimeTypeJson
-    }
+    ensureHeader(headers, 'Content-Type', mimeTypeJson)
     opt.body = JSON.stringify(opt.body)
   }
 
