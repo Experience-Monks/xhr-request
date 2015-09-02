@@ -1,6 +1,6 @@
 {
   "name": "xhr-request",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "tiny http client for Node and the browser",
   "main": "index.js",
   "license": "MIT",
