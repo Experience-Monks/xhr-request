@@ -15,6 +15,17 @@ test('should timeout', function (t) {
   })
 })
 
+test('late abort should not trigger second callback', function (t) {
+  t.plan(1)
+  t.timeoutAfter(2000)
+
+  var req = request('http://localhost:9010/message', function (err, data) {
+    if (err) t.fail(err)
+    req.abort()
+    t.equal(data, 'hello', 'got message')
+  })
+})
+
 test('should cancel', function (t) {
   t.plan(1)
   t.timeoutAfter(2000)

@@ -1,4 +1,4 @@
-var grab = require('../')
+var request = require('../')
 var test = require('tape')
 var http = require('http')
 var url = require('url')
@@ -26,7 +26,7 @@ test('general put querystring request', function (t) {
   })
   server.on('error', t.fail.bind(t))
   server.listen(9021, 'localhost', function () {
-    grab('http://localhost:9021/foo', {
+    request('http://localhost:9021/foo', {
       method: 'PUT',
       query: {
         path: 'beep/boop',
@@ -54,7 +54,7 @@ test('test timeout', function (t) {
   })
   server.on('error', t.fail.bind(t))
   server.listen(9021, 'localhost', function () {
-    grab('http://localhost:9021/', {
+    request('http://localhost:9021/', {
       timeout: 1000
     }, function (err) {
       if (err) t.equal(err.code, 'ETIMEDOUT', 'got error')
@@ -73,7 +73,7 @@ test('test node abort()', function (t) {
   })
   server.on('error', t.fail.bind(t))
   server.listen(9021, 'localhost', function () {
-    var req = grab('http://localhost:9021/', {
+    var req = request('http://localhost:9021/', {
       timeout: 1000
     }, function (err) {
       if (!err) return t.fail('should have received error')
@@ -85,6 +85,26 @@ test('test node abort()', function (t) {
     setTimeout(function () {
       req.abort()
     }, 500)
+  })
+})
+
+test('callback not fired twice', function (t) {
+  t.plan(1)
+  t.timeoutAfter(3000)
+
+  var server = http.createServer(function (req, res) {
+    res.end('hello')
+  })
+  server.on('error', t.fail.bind(t))
+  server.listen(9021, 'localhost', function () {
+    var req = request('http://localhost:9021/', function (err, data) {
+      if (err) return t.fail(err)
+
+      // if we abort after successfuly request
+      req.abort()
+      t.equal(data, 'hello', 'got message')
+      server.close()
+    })
   })
 })
 
@@ -103,7 +123,7 @@ test('test arraybuffer', function (t) {
   })
   server.on('error', t.fail.bind(t))
   server.listen(9021, 'localhost', function () {
-    grab('http://localhost:9021/foo', {
+    request('http://localhost:9021/foo', {
       responseType: 'arraybuffer'
     }, function (err, body, resp) {
       if (err) t.fail(err)
@@ -133,7 +153,7 @@ function testJSON (opt) {
     })
     server.on('error', t.fail.bind(t))
     server.listen(9021, 'localhost', function () {
-      grab('http://localhost:9021/foo', opt, function (err, body, resp) {
+      request('http://localhost:9021/foo', opt, function (err, body, resp) {
         if (err) t.fail(err)
         t.equal(resp.statusCode, 200)
         t.equal(resp.headers['content-type'], 'application/json')
