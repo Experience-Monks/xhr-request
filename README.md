@@ -54,7 +54,7 @@ request('http://foo.com/some/api', {
 
 There are a lot of HTTP clients, but most of them are Node-centric and lead to large browser bundles with builtins like `url`, `buffer`, `http`, `zlib`, streams, etc. 
 
-With browserify, this bundles to 7kb after compression. Compare to 742kb for [request](https://www.npmjs.com/package/request), 153kb for [got](https://www.npmjs.com/package/got), 74kb for [simple-get](https://www.npmjs.com/package/simple-get), and 25kb for [nets](https://www.npmjs.com/package/nets).
+With browserify, this bundles to 7kb minified. Compare to 742kb for [request](https://www.npmjs.com/package/request), 153kb for [got](https://www.npmjs.com/package/got), 74kb for [simple-get](https://www.npmjs.com/package/simple-get), and 25kb for [nets](https://www.npmjs.com/package/nets).
 
 ## Usage
 
