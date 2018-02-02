@@ -1,4 +1,4 @@
-/*globals XMLHttpRequest*/
+/* globals XMLHttpRequest */
 var test = require('tape')
 var request = require('../')
 
@@ -22,7 +22,6 @@ test('should xhr from a JSON file', function (t) {
       }), true)
     })
   }, 1000)
-
 })
 
 test('should respond with text by default', function (t) {

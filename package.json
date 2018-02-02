@@ -13,18 +13,18 @@
     "url": "https://github.com/mattdesl"
   },
   "dependencies": {
-    "buffer-to-arraybuffer": "0.0.2",
-    "object-assign": "^3.0.0",
-    "query-string": "^2.4.0",
+    "buffer-to-arraybuffer": "^0.0.5",
+    "object-assign": "^4.1.1",
+    "query-string": "^5.0.1",
     "simple-get": "^1.4.3",
-    "timed-out": "^2.0.0",
+    "timed-out": "^4.0.1",
     "url-set-query": "^1.0.0",
     "xhr": "^2.0.4"
   },
   "devDependencies": {
     "faucet": "0.0.1",
     "hihat": "^2.4.3",
-    "standard": "^5.1.1",
+    "standard": "^10.0.3",
     "tape": "^4.0.1"
   },
   "scripts": {
