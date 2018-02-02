@@ -57,7 +57,7 @@ test('test timeout', function (t) {
     request('http://localhost:9021/', {
       timeout: 1000
     }, function (err) {
-      if (err) t.equal(err.code, 'ETIMEDOUT', 'got error')
+      if (err) t.equal(err.code, 'ESOCKETTIMEDOUT', 'got error')
       else t.fail('should have received error')
       server.close()
     })
@@ -115,7 +115,7 @@ test('test arraybuffer', function (t) {
 
   var server = http.createServer(function (req, res) {
     res.statusCode = 200
-    var contents = new Buffer(array)
+    var contents = Buffer.from(array)
     res.setHeader('content-type', 'application/octet-stream')
     res.setHeader('content-length', contents.length)
     setCORS(res)
