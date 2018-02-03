@@ -2,29 +2,34 @@ var request = require('../')
 var test = require('tape')
 
 // need to find a proper way of automating this test
+// Right now to test:
+//   node test/timeout-server
+//   budo test/test-browser-timeout.js -o
+//   (or in node)
+//   node test/test-browser-timeout.js
 
-// test('should timeout', function (t) {
-//   t.plan(1);
-//   t.timeoutAfter(2000);
+test('should timeout', function (t) {
+  t.plan(1);
+  t.timeoutAfter(2000);
 
-//   request('http://localhost:9010/', {
-//     timeout: 1000
-//   }, function (err) {
-//     if (err) t.ok(err instanceof Error, 'got an error on timeout');
-//     else t.fail('did not timeout');
-//   });
-// });
+  request('http://localhost:9010/', {
+    timeout: 1000
+  }, function (err) {
+    if (err) t.ok(err instanceof Error, 'got an error on timeout');
+    else t.fail('did not timeout');
+  });
+});
 
-// test('late abort should not trigger second callback', function (t) {
-//   t.plan(1);
-//   t.timeoutAfter(2000);
+test('late abort should not trigger second callback', function (t) {
+  t.plan(1);
+  t.timeoutAfter(2000);
 
-//   var req = request('http://localhost:9010/message', function (err, data) {
-//     if (err) return t.fail(err);
-//     req.abort();
-//     t.equal(data, 'hello', 'got message');
-//   });
-// });
+  var req = request('http://localhost:9010/message', function (err, data) {
+    if (err) return t.fail(err);
+    req.abort();
+    t.equal(data, 'hello', 'got message');
+  });
+});
 
 test('should cancel', function (t) {
   t.plan(1)
