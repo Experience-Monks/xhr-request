@@ -13,7 +13,7 @@ test('should xhr from a JSON file', function (t) {
       if (err) return t.fail(err)
       t.equal(resp.url, '/test/fixture.json')
       t.equal(resp.statusCode, 200)
-      t.equal(resp.headers['content-type'], 'application/json; charset=utf-8')
+      t.equal(resp.headers['content-type'].toLowerCase(), 'application/json; charset=utf-8')
       t.equal(resp.method, 'GET')
       t.ok(resp.rawRequest instanceof XMLHttpRequest, 'has raw XHR in browser')
       t.equal(Array.isArray(issues), true)

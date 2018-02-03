@@ -22,15 +22,15 @@
     "xhr": "^2.0.4"
   },
   "devDependencies": {
+    "budo": "^11.0.1",
     "faucet": "0.0.1",
-    "hihat": "^2.4.3",
     "standard": "^10.0.3",
     "tape": "^4.0.1"
   },
   "scripts": {
     "test": "standard && npm run test-node && npm run test-browser",
     "test-node": "node test/index.js | faucet",
-    "test-browser": "hihat test/test-browser.js --timeout=3000 --quit --print | faucet"
+    "test-browser": "budo test/test-browser.js -o"
   },
   "keywords": [
     "node",
